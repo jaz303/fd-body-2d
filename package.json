@@ -1,6 +1,6 @@
 {
   "name": "fd-body-2d",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Representations of various 2D collision bodies (lines, segments, axis, AABB, circle, polygon)",
   "main": "index.js",
   "scripts": {
