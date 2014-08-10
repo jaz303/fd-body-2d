@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/jaz303/fd-body-2d/issues"
   },
-  "homepage": "https://github.com/jaz303/fd-body-2d"
+  "homepage": "https://github.com/jaz303/fd-body-2d",
+  "dependencies": {
+    "fd-vec2": "^1.0.0"
+  }
 }

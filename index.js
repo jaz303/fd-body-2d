@@ -1,4 +1,6 @@
 var vec2 = require('fd-vec2');
+var zero = vec2.zero;
+var Vec2 = vec2.Vec2;
 
 var types = {};
 
@@ -24,7 +26,7 @@ function AABB(width, height) {
     this.width = width;
     this.height = height;
 
-    this.boundOffset = vec2(width / 2, height / 2);
+    this.boundOffset = new Vec2(width / 2, height / 2);
     this.boundRadiusSq = ((width/2)*(width/2) + (height/2)*(height/2));
     this.boundRadius = Math.sqrt(this.boundRadiusSq);
 }
@@ -34,7 +36,7 @@ AABB.prototype.type = types.BODY_AABB;
 function Circle(radius) {
     this.radius = radius;
 
-    this.boundOffset = vec2.zero();
+    this.boundOffset = zero();
     this.boundRadius = radius;
     this.boundRadiusSq = radius * radius;
 }
@@ -44,13 +46,13 @@ Circle.prototype.type = types.BODY_CIRCLE;
 function Polygon(points) {
     this.points = points;
 
-    var maxSq = 0, zero = vec2.zero();
+    var maxSq = 0;
     for (var i = 0; i < this.points.length; ++i) {
-        var p = this.points[i], d = vec2.distancesq(zero, p);
+        var d = this.points[i].magnitudesq();
         if (d > maxSq) maxSq = d;
     }
 
-    this.boundOffset = vec2.zero();
+    this.boundOffset = zero();
     this.boundRadiusSq = maxSq;
     this.boundRadius = Math.sqrt(maxSq);
 }
@@ -58,11 +60,9 @@ function Polygon(points) {
 Polygon.prototype.type = types.BODY_POLYGON;
 
 function LineSegment(size) {
-    this.size = vec2.clone(size);
+    this.size = size.clone();
 
-    this.boundOffset = vec2.zero();
-    vec2.midpoint(this.size, this.boundOffset);
-
+    this.boundOffset = this.size.midpoint();
     this.boundRadiusSq = this.boundOffset.magnitudesq();
     this.boundRadius = Math.sqrt(this.boundRadiusSq);
 }
@@ -70,7 +70,7 @@ function LineSegment(size) {
 LineSegment.prototype.type = types.BODY_LINE_SEGMENT;
 
 function Line(slope) {
-    this.slope = vec2.clone(slope);
+    this.slope = slope.clone();
 }
 
 Line.prototype.type = types.BODY_LINE;
